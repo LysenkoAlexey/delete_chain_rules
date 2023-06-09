@@ -4,6 +4,8 @@ def parse_rules(rules: list) -> dict:
     parsed_rules = {}
     for rule in rules:
         left, right = rule.rstrip(';').split(' -> ')
+        if left == right:
+            return []
         parsed_rules[left] = right.split('|')
     return parsed_rules
 
@@ -119,7 +121,9 @@ if __name__ == '__main__':
 def main_final_try(rules_inference, axiom):
     parsed_rules = parse_rules(rules_inference)
 
-    not_terminal_symbols = set(parsed_rules.keys())
+    try:
+        not_terminal_symbols = set(parsed_rules.keys())
+    except: return []
     terminal_symbols = set()
     for c in parsed_rules.values():
         for elem in ''.join(c):
